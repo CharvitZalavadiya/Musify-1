@@ -1,0 +1,68 @@
+<% //category info 
+const {name: categoryName}=locals.catInfo 
+// category playlist 
+const { playlists: {items:catePlaylistItems }, page, baseUrl }=locals.catPlaylist;
+%>
+
+
+    <!DOCTYPE html>
+    <html lang="en">
+
+    <head>
+        <%- include('../layouts/head', {title: `Explore ${categoryName} | Musify` }) %>
+    </head>
+
+    <body>
+        <!-- recently played -->
+        <%- include('../layouts/recent_played', { recentlyPlayed: locals.recentlyPlayedTracks }) %>
+
+            <article class="page custom-scrollbar" data-page>
+                <!-- top bar -->
+                <%- include('../partials/top_bar', locals.currentProfile) %>
+                    <!-- bottom nav -->
+                    <%- include('../partials/bottom_nav') %>
+
+                        <div class="main" data-main>
+                            <section class="section">
+                                <div class="title-wrapper">
+                                    <h2 class="title-large section-title">
+                                        <%=categoryName%>
+                                    </h2>
+                                </div>
+
+                                <div class="grid-list">
+                                    <% catePlaylistItems.forEach(item => { %>
+                                        <% if(item !==null) { %>
+                                            <% const { id, images, name: title, description, uri }=item
+                                                const [image]=images || []; %>
+                                                <%- include('../partials/card', { image, type: 'playlist' , title, text:
+                                                    description, link: `/playlist/${id}`, uri }) %>
+                                        <% } %>
+                                    <% }) %>
+                                </div>
+
+                                <!-- pagination -->
+
+                                <%- include('../partials/pagination', {
+                                    baseUrl,
+                                    page,
+                                    ...locals.catPlaylist.playlists
+                                }) %>
+
+                            </section>
+
+                        </div>
+
+
+                        <!-- first line ne proper karvi -->
+
+                        <!-- player sm -->
+                        <%- include('../partials/player_sm') %>
+                            <!-- player lg -->
+                            <%- include('../partials/player_lg') %>
+                                <!-- footer -->
+                                <%- include('../layouts/footer') %>
+            </article>
+    </body>
+
+    </html>

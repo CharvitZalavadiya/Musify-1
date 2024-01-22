@@ -1,0 +1,115 @@
+@import url(./variables.css);
+@import url(./reset.css);
+@import url(./base.css);
+@import url(./typography.css);
+
+/*
+
+reused style
+
+*/
+
+:has(> .state-layer) {
+  position: relative;
+  overflow: hidden;
+  isolation: isolate;
+  user-select: none;
+  -webkit-user-select: none;
+}
+
+.state-layer {
+  position: absolute;
+  inset: 0;
+  background-color: var(--state-layer-bg);
+  opacity: 0;
+  transition: opacity var(--tr-duration-short-2) var(--tr-easing-linear);
+}
+
+:has(> .state-layer):hover > .state-layer {
+  opacity: 0.2;
+}
+
+:has(> .state-layer):is(:focus, :focus-visible, :focus-within, :active)
+  > .state-layer {
+  opacity: 0.12;
+}
+
+/*
+
+  component
+
+*/
+
+.btn {
+  max-width: max-content;
+  min-width: max-content;
+  margin-inline: auto;
+  margin-block-start: var(--space-4);
+  height: 40px;
+  padding-inline: var(--space-4) var(--space-6);
+  display: flex;
+  align-items: center;
+  gap: var(--space-2);
+  border-radius: var(--radius-full);
+  background-color: var(--primary);
+  color: var(--on-primary);
+  --state-layer-bg: var(--on-primary);
+  transition: box-shadow var(--tr-duration-short-2) var(--tr-easing-linear);
+}
+
+.btn:hover:not(:focus) {
+  box-shadow: var(--shadow-1);
+}
+
+/*
+
+  main
+
+*/
+
+.error-page {
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  gap: var(--space-7);
+  text-align: center;
+}
+
+.error-page .text {
+  margin-block-start: var(--space-2);
+  opacity: 0.8;
+  max-width: 24ch;
+}
+
+/*
+
+  media queries
+
+*/
+
+/* responsive for larger than 768px */
+
+@media (min-width: 768px) {
+  .error-page {
+    gap: var(--space-10);
+  }
+
+  .logo {
+    width: 60px;
+    height: 60px;
+  }
+
+  .error-page .title {
+    font-size: var(--fs-display-large);
+    line-height: var(--lh-display-large);
+    letter-spacing: var(--ls-n-024);
+  }
+
+  .error-page .text {
+    max-width: unset;
+    margin-block-start: var(--space-4);
+  }
+}
+

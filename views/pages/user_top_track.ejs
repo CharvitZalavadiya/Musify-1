@@ -1,0 +1,78 @@
+<% 
+    // user top tracks
+    const {
+        items: trackItems,
+        limit,
+        page
+    } = locals.tracks
+%>
+
+
+
+    <!DOCTYPE html>
+    <html lang="en">
+
+    <head>
+        <%- include('../layouts/head', {title: `${locals.title} | Musify` }) %>
+    </head>
+
+    <body>
+        <!-- recently played -->
+        <%- include('../layouts/recent_played', { recentlyPlayed: locals.recentlyPlayedTracks }) %>
+
+            <article class="page custom-scrollbar" data-page>
+                <!-- top bar -->
+                <%- include('../partials/top_bar', locals.currentProfile) %>
+                    <!-- bottom nav -->
+                    <%- include('../partials/bottom_nav') %>
+
+                        <div class="main" data-main>
+                            <section class="section">
+                                <div class="title-wrapper">
+                                    <h2 class="title-large section-title">
+                                        <%=locals.title%>
+                                    </h2>
+                                </div>
+
+                                <div class="list">
+                                    <% trackItems.forEach(({album: {images, name: albumName}, artists, name, duration_ms, id, uri: trackUri}, index) => { %>
+                                        <% const text = artists.map(({name}) => name).join(', ');
+                                            index = (index+1)+(limit*(page - 1));
+                                        %>
+
+                                        <%- include('../partials/list_item', {
+                                            title: name,
+                                            images,
+                                            text,
+                                            duration_ms,
+                                            id,
+                                            trackNumber: index,
+                                            albumName,
+                                            trackUri
+                                        }) %>
+                                    <% }) %>
+                                </div>
+
+
+                                <!-- pagination -->
+
+                                <%- include('../partials/pagination', locals.tracks) %>
+
+                            </section>
+
+                            <!-- first line ne proper karvi -->
+
+
+                        </div>
+                        
+                        <!-- player sm -->
+                        <%- include('../partials/player_sm') %>
+                            <!-- player lg -->
+                            <%- include('../partials/player_lg') %>
+                                <!-- footer -->
+                                <%- include('../layouts/footer') %>
+
+            </article>
+    </body>
+
+    </html>

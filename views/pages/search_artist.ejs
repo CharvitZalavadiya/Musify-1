@@ -1,0 +1,62 @@
+<% // search artist 
+const {
+    items: searchArtistItems
+}=locals.searchArtist; 
+%>
+
+    <!DOCTYPE html>
+    <html lang="en">
+
+    <head>
+        <%- include('../layouts/head', {title: `Search | Musify` }) %>
+    </head>
+
+    <body>
+        <!-- recently played -->
+        <%- include('../layouts/recent_played', { recentlyPlayed: locals.recentlyPlayedTracks }) %>
+
+            <article class="page custom-scrollbar" data-page>
+                <!-- top bar -->
+                <%- include('../partials/top_bar', locals.currentProfile ) %>
+                    <!-- bottom nav -->
+                    <%- include('../partials/bottom_nav') %>
+                        <!-- search filter list -->
+                        <%- include('../layouts/search_filter', { type: locals.type }) %>
+
+                            <div class="main" data-main>
+
+                                <section class="section">
+
+                                    <div class="grid-list">
+                                        <% searchArtistItems.forEach(({id, images, name: title, type, uri})=> { %>
+                                            <% const [image]=images || []; %>
+
+                                                <%- include('../partials/card', {
+                                                    variant: 'artist-card' , image,
+                                                    type: 'artist' , title, text: type, link:
+                                                    `/artist/${id}`, uri }) %>
+
+                                                    <% }) %>
+                                    </div>
+
+                                    <!-- pagination -->
+
+                                    <%- include('../partials/pagination', locals.searchArtist) %>
+
+                                </section>
+
+
+                                <!-- first line ne proper karvi -->
+                            </div>
+
+                            <!-- player sm -->
+                            <%- include('../partials/player_sm') %>
+                                <!-- player lg -->
+                                <%- include('../partials/player_lg') %>
+                                    <!-- footer -->
+                                    <%- include('../layouts/footer') %>
+
+            </article>
+    </body>
+
+    </html>
